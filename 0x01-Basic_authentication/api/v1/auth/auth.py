@@ -9,7 +9,12 @@ class Auth:
     """ basic authentication provider class """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ authentication method """
-        return False
+        if path is None or excluded_paths is None:
+            return True
+        elif path in excluded_paths or path + '/' in excluded_paths:
+            return False
+        else:
+            return True
 
     def authorization_header(self, request=None) -> str:
         """ authorization header method """
