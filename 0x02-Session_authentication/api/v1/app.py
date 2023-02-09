@@ -9,6 +9,7 @@ from flask_cors import (CORS, cross_origin)
 import os
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
 
 
 app = Flask(__name__)
@@ -18,8 +19,10 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 if getenv("AUTH_TYPE") == "auth":
     auth = Auth()
-else:
+elif getenv("AUTH_TYPE") == "basic_auth":
     auth = BasicAuth()
+else:
+    auth = SessionAuth()
 
 
 @app.errorhandler(404)
