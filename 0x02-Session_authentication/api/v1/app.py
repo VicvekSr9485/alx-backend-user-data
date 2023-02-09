@@ -60,7 +60,7 @@ def before_request() -> str:
         if not auth.authorization_header(request):
             abort(401)
         if not auth.authorization_header(request)\
-                and not auth.session_cookie(request):
+                and auth.session_cookie(request) is None:
             abort(401)
         if not auth.current_user(request):
             abort(403)
