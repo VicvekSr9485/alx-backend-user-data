@@ -48,23 +48,25 @@ def forbidden(error) -> str:
 
 
 @app.before_request
-def before_request() -> str:
-    """ before request method """
-    if auth is None:
-        return
-    excluded_paths = ['/api/v1/status/',
-                      '/api/v1/unauthorized/',
-                      '/api/v1/forbidden/',
-                      '/api/v1/auth_session/login/']
-    if auth.require_auth(request.path, excluded_paths):
-        if not auth.authorization_header(request):
-            abort(401)
+def before_request() -> None:
+    """
+    Executed before each request
+    that is handled by a function
+    of that blueprint
+    """
+    excluded_paths = [
+            '/api/v1/status/',
+            '/api/v1/unauthorized/',
+            '/api/v1/forbidden/',
+            '/api/v1/auth_session/login/'
+            ]
+    if auth and auth.require_auth(request.path, excluded_paths):
         if not auth.authorization_header(request)\
-                and auth.session_cookie(request) is None:
+                and not auth.session_cookie(request):
             abort(401)
         if not auth.current_user(request):
             abort(403)
-    request.current_user = auth.current_user(request)
+        request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
