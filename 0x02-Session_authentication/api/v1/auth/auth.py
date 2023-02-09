@@ -11,19 +11,13 @@ class Auth:
         """ authentication method """
         if path is None or excluded_paths is None:
             return True
-        elif path in excluded_paths or path + '/' in excluded_paths:
+        if path in excluded_paths or path + '/' in excluded_paths:
             return False
-        else:
-            return True
-        """for excluded_path in excluded_paths:
-            if excluded_path.endswith("*"):
-                prefix = excluded_path[:-1]
-            if path.startswith(prefix):
-                return False
-            else:
-                if path == excluded_path:
+        for e_path in excluded_paths:
+            if e_path.endswith('*'):
+                if path.startswith(e_path[:1]):
                     return False
-                return True """
+        return True
 
     def authorization_header(self, request=None) -> str:
         """ authorization header method """
