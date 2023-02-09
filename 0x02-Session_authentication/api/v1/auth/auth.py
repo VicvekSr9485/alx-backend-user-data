@@ -13,7 +13,9 @@ class Auth:
             return True
         elif path in excluded_paths or path + '/' in excluded_paths:
             return False
-        for excluded_path in excluded_paths:
+        else:
+            return True
+        """for excluded_path in excluded_paths:
             if excluded_path.endswith("*"):
                 prefix = excluded_path[:-1]
             if path.startswith(prefix):
@@ -21,9 +23,7 @@ class Auth:
             else:
                 if path == excluded_path:
                     return False
-                return True
-        else:
-            return True
+                return True """
 
     def authorization_header(self, request=None) -> str:
         """ authorization header method """
