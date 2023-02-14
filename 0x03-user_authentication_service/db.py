@@ -57,3 +57,13 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
+        """ updates user """
+        user = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError
+
+        self._session.commit()
