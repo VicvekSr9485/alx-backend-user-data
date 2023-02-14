@@ -44,7 +44,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """  returns the first row found in the users
         table as filtered by the input arguments """
         try:
@@ -55,3 +55,5 @@ class DB:
         if not user:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
